@@ -60,6 +60,13 @@
 /* Set the following definitions to 1 to include the API function, or zero
 to exclude the API function. */
 
+/*                                FreeRTOS与软件定时器有关的配置选项                                            */
+/***************************************************************************************************************/
+#define configUSE_TIMERS				        1                               //为1时启用软件定时器
+#define configTIMER_TASK_PRIORITY		        (configMAX_PRIORITIES-1)        //软件定时器优先级
+#define configTIMER_QUEUE_LENGTH		        5                               //软件定时器队列长度
+#define configTIMER_TASK_STACK_DEPTH	        (configMINIMAL_STACK_SIZE*2)    //软件定时器任务堆栈大小
+
 #define INCLUDE_vTaskPrioritySet		1
 #define INCLUDE_uxTaskPriorityGet		1
 #define INCLUDE_vTaskDelete				1
@@ -68,6 +75,7 @@ to exclude the API function. */
 #define INCLUDE_vTaskDelayUntil			1
 #define INCLUDE_vTaskDelay				1
 #define INCLUDE_xTaskGetCurrentTaskHandle 1
+#define INCLUDE_xTimerPendFunctionCall	        1
 
 /* This is the raw value as per the Cortex-M3 NVIC.  Values can be 255
 (lowest) to 0 (1?) (highest). */
@@ -82,6 +90,9 @@ priority values, 0 to 15.  This must correspond to the
 configKERNEL_INTERRUPT_PRIORITY setting.  Here 15 corresponds to the lowest
 NVIC value of 255. */
 #define configLIBRARY_KERNEL_INTERRUPT_PRIORITY	15
+
+#define xPortPendSVHandler 	PendSV_Handler
+#define vPortSVCHandler 	SVC_Handler
 
 #endif /* FREERTOS_CONFIG_H */
 

@@ -11,6 +11,14 @@
 *.ilk
 *.map
 *.exp
+*.crf
+*.htm
+*.lnp
+*.dep
+*.axf
+smartHome/Listings/
+smartHome/JLinkLog.txt
+smartHome/JLinkSettings.ini
 
 # Precompiled Headers
 *.gch

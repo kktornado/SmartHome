@@ -1,13 +1,11 @@
+#include <stdio.h>
 #include "FreeRTOS.h"
 #include "task.h"
 #include "stm32f10x_it.h"
 #include "stm32f10x.h"
 #include "stm32f10x_gpio.h"
-//#include "stm32f10x_conf.h"
-
-//#include "stm32f10x_rcc.h"
-
-#include <stdio.h>
+#include "usart.h"
+#include "led.h"
 
 #define  START_TASK_PRIO            1       //任务优先级
 #define  START_STK_SIZE   				  128     //任务堆栈大小
@@ -34,8 +32,9 @@ static u16 fac_ms=0;							//ms延时倍乘数,在ucos下,代表每个节拍的ms数
 int main()
 {
 	 NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);   //设置中断优先级为4
-
-
+	 LED_Init();
+   uart_init(115200);	 //串口初始化为115200
+	 printf("run main\n");
 	 //创建开始任务
 	 xTaskCreate((TaskFunction_t) start_task,         //任务函数
 		           (const char*)"start_task",           //任务名称
@@ -74,12 +73,24 @@ void start_task(void *Pvparameters)
 //LED0任务函数
 void led0_task(void *pvParameters) 
 {
-	printf("led0\n");
+	while(1)
+	{
+		printf("led0\n");
+		LED0=~LED0;
+		vTaskDelay(500);
+	}
 }
 
 
 //LED1任务函数
 void led1_task(void *pvParameters)
 {
-	printf("led1\n");
+	while(1)
+	{
+		LED1=0;
+		vTaskDelay(200);
+		LED1=1;
+		printf("led1\n");
+		vTaskDelay(800);
+	}
 }
